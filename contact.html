@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./navbar.css">
+</head>
+<body>
+    <div id="navbar">
+        <h1> <a href="./home.html">Home</a></h1>
+        <h1> <a href="./contact.html">Contact List</a></h1>
+        <h1> <a href="./favourite.html">Favourites</a></h1>
+    </div>
+    <div id="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Contact Name</th>
+                    <th>Mobile Number</th>
+                    <th>Type</th>
+                    <th>Favourites</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    var contactList = JSON.parse(localStorage.getItem('contactList')) || [];
+    var favourite = JSON.parse(localStorage.getItem('favourites')) || [];
+    function display(contactList)
+    {
+        document.querySelector('tbody').innerHTML="";
+        contactList.forEach(contact => {
+            var row = document.createElement('tr');
+
+            var name = document.createElement('td');
+            name.innerText = contact.name;
+
+            var number = document.createElement('td');
+            number.innerText = contact.number;
+
+            var type = document.createElement('td');
+            type.innerText = contact.tag;
+
+            var fav = document.createElement('td');
+            fav.innerText = "Add to fav";
+            fav.style.color = 'red';
+            fav.style.cursor = 'pointer';
+            fav.addEventListener('click' , function()
+            {
+                favouritelist(contact);
+            });
+
+            row.append(name,number,type,fav);
+            document.querySelector('tbody').append(row);
+        });
+    }
+    function favouritelist(contact)
+    {
+        favourite.push(contact);
+        localStorage.setItem('favourites' , JSON.stringify(favourite));
+        alert('added to favourites');
+    }
+    window.addEventListener('load',function()
+        {
+            display(contactList);
+        }
+    );
+</script>
+</html>
